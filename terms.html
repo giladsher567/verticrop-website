@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service — VertiCrop</title>
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://verticrop.sharedvisionai.org/terms" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Heebo:wght@700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse 120% 50% at 50% -5%, rgba(56,189,248,0.18) 0%, transparent 65%),
+                #ffffff;
+        }
+        .font-heebo { font-family: 'Heebo', sans-serif; }
+        .vc-btn {
+            display: inline-flex; align-items: center; gap: 0.625rem;
+            background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+            color: #fff; font-family: 'Heebo', sans-serif; font-weight: 800;
+            font-size: 0.9375rem; padding: 0.625rem 1.375rem; border-radius: 10px;
+            text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(14,165,233,0.30); white-space: nowrap;
+        }
+        .vc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(14,165,233,0.45); }
+        .vc-nav {
+            position: sticky; top: 0; z-index: 50; background: transparent;
+            border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s;
+        }
+        .vc-nav.scrolled {
+            background: rgba(255,255,255,0.82); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border-bottom-color: rgba(0,0,0,0.07);
+        }
+        .legal-section { margin-bottom: 2.25rem; }
+        .legal-section h2 {
+            font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 1rem;
+            color: #0f172a; margin-bottom: 0.75rem; text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .legal-section p, .legal-section li {
+            color: #475569; font-size: 0.9375rem; line-height: 1.75;
+        }
+        .legal-section ul { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.3rem; }
+        .plan-table { width: 100%; border-collapse: collapse; font-size: .875rem; margin-top: .5rem; }
+        .plan-table th {
+            text-align: left; padding: .625rem .875rem; font-family: 'Heebo', sans-serif;
+            font-weight: 700; color: #0f172a; background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .plan-table td {
+            padding: .625rem .875rem; color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .plan-table tr:last-child td { border-bottom: none; }
+        .vc-footer { border-top: 1px solid rgba(0,0,0,0.08); background: rgba(248,250,252,0.8); }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="vc-nav">
+        <div style="max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.5rem;">
+            <a href="/" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <filter id="glow1" x="-30%" y="-60%" width="160%" height="220%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="ls1" x="-60%" y="-30%" width="220%" height="160%">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.7"/>
+                        </filter>
+                    </defs>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="url(#lg1)" stroke-width="9" filter="url(#glow1)" opacity="0.6"/>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="#93c5fd" stroke-width="2"/>
+                    <g filter="url(#ls1)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:1.2rem;font-weight:800;color:#0f172a;letter-spacing:-.01em;">VertiCrop</span>
+            </a>
+            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe" class="vc-btn">
+                <i data-lucide="download" style="width:15px;height:15px;"></i> Free Trial
+            </a>
+        </div>
+    </nav>
+
+    <!-- TABS -->
+    <div style="border-bottom:1px solid #e2e8f0;background:#fff;">
+        <div style="max-width:44rem;margin:0 auto;padding:0 1.5rem;display:flex;gap:.25rem;">
+            <a href="/privacy" style="padding:.75rem 1.25rem;font-size:.875rem;font-weight:500;color:#64748b;border-bottom:2px solid transparent;text-decoration:none;white-space:nowrap;transition:color .15s;">Privacy Policy</a>
+            <a href="/terms"   style="padding:.75rem 1.25rem;font-size:.875rem;font-weight:600;color:#1e40af;border-bottom:2px solid #1e40af;text-decoration:none;white-space:nowrap;">Terms of Service</a>
+            <a href="/refund"  style="padding:.75rem 1.25rem;font-size:.875rem;font-weight:500;color:#64748b;border-bottom:2px solid transparent;text-decoration:none;white-space:nowrap;transition:color .15s;">Refund Policy</a>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <section style="padding:3rem 1.5rem 2rem;text-align:center;">
+        <div style="max-width:44rem;margin:0 auto;">
+            <h1 class="font-heebo" style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;color:#0f172a;margin-bottom:.625rem;">Terms of Service</h1>
+            <p style="color:#94a3b8;font-size:.9rem;">Last updated: June 3, 2026</p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section style="padding:0 1.5rem 5rem;">
+        <div style="max-width:44rem;margin:0 auto;border-top:1px solid #e2e8f0;padding-top:2.5rem;">
+
+            <div class="legal-section">
+                <h2>1. Agreement</h2>
+                <p>By creating an account or using VertiCrop, you agree to these Terms. If you do not agree, do not use the service.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. The Service</h2>
+                <p>VertiCrop is a desktop application for reframing video to vertical 9:16 format, provided by Gilad Shar, sole proprietor, Israel ("we", "us", "our").</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Account</h2>
+                <ul>
+                    <li>You must provide a valid email address</li>
+                    <li>You are responsible for maintaining the security of your password</li>
+                    <li>One account per person; accounts are non-transferable</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Subscription Plans</h2>
+                <div style="overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0;margin-top:.75rem;">
+                    <table class="plan-table">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Monthly</th>
+                                <th>Annual</th>
+                                <th>Key Limits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Free</strong></td>
+                                <td>$0</td>
+                                <td>—</td>
+                                <td>120 sec max, watermark, no XML</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pro</strong></td>
+                                <td>$29.99</td>
+                                <td>$305.90</td>
+                                <td>No watermark, XML export, 1 device</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Production</strong></td>
+                                <td>$149.99</td>
+                                <td>$1,529.90</td>
+                                <td>All Pro features, unlimited devices</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top:.75rem;">Prices are in USD. Paddle collects and remits all applicable taxes on our behalf.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Billing</h2>
+                <p>Subscriptions are billed in advance, monthly or annually. <a href="https://paddle.com" style="color:#2563eb;">Paddle</a> is our Merchant of Record and processes all payments. By purchasing, you also agree to Paddle's Terms of Service.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Device Restriction</h2>
+                <p>Pro subscriptions are licensed for one (1) device. Device transfers are permitted once every 30 days — contact support to initiate a transfer.</p>
+                <p style="margin-top:.5rem;">Production subscriptions may be used on unlimited devices within your organization. Sharing account credentials outside your organization is prohibited.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Cancellation</h2>
+                <p>You may cancel at any time. Access continues until the end of the current billing period. No partial refunds for unused time, except as described in our <a href="/refund" style="color:#2563eb;">Refund Policy</a>.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. Acceptable Use</h2>
+                <p style="margin-bottom:.5rem;">You may not:</p>
+                <ul>
+                    <li>Share account credentials with individuals outside your licensed device count</li>
+                    <li>Reverse engineer, decompile, or modify the software</li>
+                    <li>Use VertiCrop for any unlawful purpose</li>
+                    <li>Attempt to circumvent license or device restrictions</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. Intellectual Property</h2>
+                <p>VertiCrop and all related software, designs, and content are owned by Gilad Shar. You are granted a limited, non-exclusive, non-transferable license to use the software during your active subscription period.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>10. Disclaimer of Warranties</h2>
+                <p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. WE DO NOT WARRANT THAT THE SERVICE WILL BE ERROR-FREE, UNINTERRUPTED, OR MEET YOUR SPECIFIC REQUIREMENTS.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>11. Limitation of Liability</h2>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, OUR TOTAL LIABILITY FOR ANY CLAIM ARISING FROM OR RELATED TO THESE TERMS SHALL NOT EXCEED THE AMOUNT YOU PAID US IN THE THREE (3) MONTHS PRECEDING THE CLAIM.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>12. Termination</h2>
+                <p>We may suspend or terminate your account if you violate these Terms. You may close your account at any time by contacting support.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>13. Governing Law</h2>
+                <p>These Terms are governed by the laws of the State of Israel. Any disputes shall be subject to the exclusive jurisdiction of the courts of Israel.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>14. Changes</h2>
+                <p>We may update these Terms. We will notify users by email of material changes at least 14 days in advance. Continued use after the notice period constitutes acceptance.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>15. Contact</h2>
+                <p><a href="mailto:support@sharedvisionai.org" style="color:#2563eb;">support@sharedvisionai.org</a></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="vc-footer" style="padding:2.25rem 1.5rem;">
+        <div style="max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:.625rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="22" height="22" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg2" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <filter id="ls2" x="-60%" y="-30%" width="220%" height="160%">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.7"/>
+                        </filter>
+                    </defs>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="url(#lg2)" stroke-width="8"/>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+                    <g filter="url(#ls2)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:.9375rem;font-weight:800;color:#0f172a;">VertiCrop</span>
+            </div>
+            <div style="display:flex;gap:1.5rem;align-items:center;">
+                <a href="/privacy" style="color:#64748b;font-size:.8125rem;text-decoration:none;">Privacy</a>
+                <a href="/terms"   style="color:#64748b;font-size:.8125rem;text-decoration:none;">Terms</a>
+                <a href="/refund"  style="color:#64748b;font-size:.8125rem;text-decoration:none;">Refund</a>
+            </div>
+            <p style="color:#94a3b8;font-size:.8125rem;margin:0;">
+                Built by <a href="https://sharedvisionai.org" style="color:#64748b;text-decoration:none;">SharedVision AI</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const nav = document.querySelector('.vc-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 24);
+        }, { passive: true });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>VertiCrop — Vertical Cropping for Premiere Pro &amp; DaVinci Resolve</title>
+    <meta name="description"
+        content="VertiCrop crops any video to 9:16 in seconds. Integrates with Premiere Pro and DaVinci Resolve via XML. Your footage stays on your machine. $30/month, unlimited exports." />
+
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://sharedvisionai.org/vertical-crop" />
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="VertiCrop — Vertical Cropping for Premiere Pro &amp; DaVinci Resolve" />
+    <meta property="og:description" content="Crop any video to 9:16, export XML back to your editor. $30/month unlimited." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sharedvisionai.org/vertical-crop" />
+    <meta property="og:site_name" content="SharedVision AI" />
+    <meta property="og:image" content="/logo.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VertiCrop — Vertical Cropping for Premiere Pro &amp; DaVinci Resolve" />
+    <meta name="twitter:description" content="Crop any video to 9:16 and export XML back to your NLE. $30/month unlimited." />
+    <meta name="twitter:image" content="/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Heebo:wght@700;800&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VertiCrop",
+      "operatingSystem": "Windows",
+      "applicationCategory": "MultimediaApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "30",
+        "priceCurrency": "USD",
+        "billingDuration": "P1M"
+      },
+      "description": "Desktop tool that crops any video to 9:16 vertical format and exports XML for Premiere Pro and DaVinci Resolve.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SharedVision AI",
+        "url": "https://sharedvisionai.org"
+      }
+    }
+    </script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { direction: ltr; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            min-height: 100vh;
+            /*
+              Single cohesive background gradient across the whole page.
+              Cool sky-blue halo at the very top (hero area), fades to clean white,
+              ends with a very faint warm-blue tint at the bottom — no hard breaks.
+            */
+            background:
+                radial-gradient(ellipse 120% 65% at 50% -2%, rgba(56, 189, 248, 0.28) 0%, rgba(99, 102, 241, 0.10) 45%, transparent 70%),
+                radial-gradient(ellipse 70% 35% at 85% 105%, rgba(99, 102, 241, 0.13) 0%, transparent 60%),
+                #ffffff;
+        }
+
+        .font-heebo { font-family: 'Heebo', sans-serif; }
+
+        /* ── Gradient text ───────────────────────────────────────── */
+        .vc-grad {
+            background: linear-gradient(110deg, #1e40af 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Button ──────────────────────────────────────────────── */
+        .vc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+            color: #fff;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.30);
+            white-space: nowrap;
+        }
+        .vc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.45);
+        }
+        .vc-btn-lg { font-size: 1.125rem; padding: 1.125rem 2.5rem; }
+        .vc-btn-sm { font-size: 0.9375rem; padding: 0.625rem 1.375rem; }
+
+        /* ── Nav ─────────────────────────────────────────────────── */
+        .vc-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .vc-nav.scrolled {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom-color: rgba(0, 0, 0, 0.07);
+        }
+
+        /* ── Hero badge ──────────────────────────────────────────── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 0.3rem 0.875rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── Trust bar ───────────────────────────────────────────── */
+        .trust-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .sep { width: 1px; height: 12px; background: #cbd5e1; display: inline-block; }
+
+        /* ── Cards ───────────────────────────────────────────────── */
+        .vc-card {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            padding: 1.625rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+        }
+        .vc-card:hover {
+            border-color: #bae6fd;
+            box-shadow: 0 6px 24px rgba(14, 165, 233, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .feat-icon {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 10px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-bottom: 1rem;
+        }
+
+        /* ── Video shell ─────────────────────────────────────────── */
+        .video-shell {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: rgba(240, 249, 255, 0.6);
+            box-shadow: 0 4px 32px rgba(14, 165, 233, 0.10);
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        /* ── Pricing card ────────────────────────────────────────── */
+        .price-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1.5px solid rgba(14, 165, 233, 0.25);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 40px rgba(14, 165, 233, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* ── Footer ──────────────────────────────────────────────── */
+        .vc-footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(248, 250, 252, 0.8);
+        }
+
+        /* ── Headings ────────────────────────────────────────────── */
+        .h2 {
+            font-family: 'Heebo', sans-serif;
+            font-weight: 800;
+            color: #0f172a;
+            font-size: clamp(1.75rem, 4vw, 2.625rem);
+            margin-bottom: 0.75rem;
+        }
+        .sub { color: #64748b; font-size: 1.0625rem; line-height: 1.7; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.125rem;
+            margin-top: 3rem;
+        }
+
+        /* ── Scroll-in ───────────────────────────────────────────── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.52s ease, transform 0.52s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: none; }
+        .d1 { transition-delay: 0.08s; }
+        .d2 { transition-delay: 0.16s; }
+        .d3 { transition-delay: 0.24s; }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══ NAV ════════════════════════════════════════════════════ -->
+    <nav class="vc-nav">
+        <div style="max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.5rem;">
+            <a href="#" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/>
+                            <stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <!-- glow halo for the tube -->
+                        <filter id="tube-glow" x="-40%" y="-80%" width="180%" height="260%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <!-- glow halo for the white lines -->
+                        <filter id="line-glow" x="-80%" y="-30%" width="260%" height="160%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <!-- glow halo (wide + soft) -->
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none"
+                          stroke="url(#lg1)" stroke-width="9" filter="url(#tube-glow)" opacity="0.6"/>
+                    <!-- bright core (thin, crisp) -->
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none"
+                          stroke="#93c5fd" stroke-width="2"/>
+                    <!-- white lines: glow + core -->
+                    <g filter="url(#line-glow)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:1.2rem;font-weight:800;color:#0f172a;letter-spacing:-.01em;">VertiCrop</span>
+            </a>
+            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+               class="vc-btn vc-btn-sm">
+                <i data-lucide="download" style="width:15px;height:15px;"></i>
+                Free Trial
+            </a>
+        </div>
+    </nav>
+
+    <!-- ══ HERO ═══════════════════════════════════════════════════ -->
+    <section style="padding:6rem 1.5rem 5rem;text-align:center;">
+        <div style="max-width:52rem;margin:0 auto;">
+
+            <div class="badge">
+                <i data-lucide="monitor" style="width:13px;height:13px;"></i>
+                Built for Video Editors — Windows
+            </div>
+
+            <h1 class="font-heebo" style="font-size:clamp(2.25rem,5.5vw,3.75rem);font-weight:800;line-height:1.12;color:#0f172a;margin-bottom:1.375rem;">
+                Vertical clips from your<br />
+                <span class="vc-grad">Premiere &amp; DaVinci timeline</span><br />
+                in seconds
+            </h1>
+
+            <p style="font-size:1.125rem;color:#64748b;line-height:1.75;max-width:38rem;margin:0 auto 2.5rem;">
+                VertiCrop reads your project, lets you frame the crop visually,
+                and exports an XML you drop straight back into Premiere Pro or
+                DaVinci Resolve — ready to post on TikTok, Reels, and Shorts.
+            </p>
+
+            <div style="margin-bottom:2.25rem;">
+                <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                   class="vc-btn vc-btn-lg">
+                    <i data-lucide="download" style="width:20px;height:20px;"></i>
+                    Start Free Trial
+                </a>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.875rem 1.25rem;">
+                <div class="trust-item">
+                    <i data-lucide="file-code" style="width:14px;height:14px;color:#0ea5e9;"></i>
+                    XML for Premiere &amp; DaVinci
+                </div>
+                <span class="sep"></span>
+                <div class="trust-item">
+                    <i data-lucide="cpu" style="width:14px;height:14px;color:#0ea5e9;"></i>
+                    Runs on your machine
+                </div>
+                <span class="sep"></span>
+                <div class="trust-item">
+                    <i data-lucide="infinity" style="width:14px;height:14px;color:#0ea5e9;"></i>
+                    Free trial — $30/mo Pro
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ VIDEO DEMO ═════════════════════════════════════════════ -->
+    <section style="padding:2rem 1.5rem 4.5rem;">
+        <div style="max-width:56rem;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:2rem;" class="fade-up">
+                <h2 class="h2" style="font-size:1.875rem;">See it in action</h2>
+                <p class="sub">From timeline to vertical clip — watch the full workflow.</p>
+            </div>
+            <div class="fade-up d1" id="yt-player"
+                 style="position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+                        box-shadow:0 4px 32px rgba(14,165,233,0.10);border:1px solid rgba(14,165,233,0.2);
+                        cursor:pointer;background:#000;"
+                 onclick="this.innerHTML='<iframe style=\'position:absolute;inset:0;width:100%;height:100%;border:0;\' src=\'https://www.youtube.com/embed/APpiOi1mTE8?autoplay=1\' title=\'VertiCrop Demo\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
+                <img src="https://img.youtube.com/vi/APpiOi1mTE8/maxresdefault.jpg"
+                     alt="VertiCrop Demo"
+                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" />
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+                    <div style="width:4.5rem;height:4.5rem;border-radius:50%;
+                                background:linear-gradient(135deg,#1e40af 0%,#0ea5e9 100%);
+                                display:flex;align-items:center;justify-content:center;
+                                box-shadow:0 4px 24px rgba(14,165,233,0.45);
+                                transition:transform 0.2s ease,box-shadow 0.2s ease;"
+                         onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 8px 32px rgba(14,165,233,0.6)';"
+                         onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 24px rgba(14,165,233,0.45)';">
+                        <svg viewBox="0 0 24 24" fill="white" width="26" height="26" style="margin-left:3px;">
+                            <polygon points="5,3 19,12 5,21"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ FEATURES ═══════════════════════════════════════════════ -->
+    <section style="padding:4rem 1.5rem 5rem;">
+        <div style="max-width:72rem;margin:0 auto;">
+            <div style="text-align:center;" class="fade-up">
+                <h2 class="h2">Everything editors need to go vertical</h2>
+                <p class="sub" style="max-width:36rem;margin:0 auto;">Built around your existing NLE workflow — not as a replacement for it.</p>
+            </div>
+
+            <div class="features-grid">
+
+                <div class="vc-card fade-up d1">
+                    <div class="feat-icon"><i data-lucide="file-code-2" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Premiere Pro &amp; DaVinci XML</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">Import your sequence, crop it visually, and export an XML you drop straight back into your editor. Your existing edit stays intact.</p>
+                </div>
+
+                <div class="vc-card fade-up d2">
+                    <div class="feat-icon"><i data-lucide="sliders-horizontal" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Full Control in the App</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">Every crop position, timing, and framing decision is adjustable directly inside VertiCrop's visual interface — no manual file editing.</p>
+                </div>
+
+                <div class="vc-card fade-up d3">
+                    <div class="feat-icon"><i data-lucide="infinity" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Unlimited Exports</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">One flat monthly price. Create as many vertical clips as your content pipeline demands — no per-export fees, ever.</p>
+                </div>
+
+                <div class="vc-card fade-up d1">
+                    <div class="feat-icon"><i data-lucide="cpu" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Runs on Your Machine</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">ML models run locally on your GPU or CPU. Your footage is processed on-device and stays private — never sent to a cloud server.</p>
+                </div>
+
+                <div class="vc-card fade-up d2">
+                    <div class="feat-icon"><i data-lucide="smartphone" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">9:16 in One Click</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">Output is perfectly framed for TikTok, Instagram Reels, and YouTube Shorts. What you see in the preview is exactly what gets exported.</p>
+                </div>
+
+                <div class="vc-card fade-up d3">
+                    <div class="feat-icon"><i data-lucide="zap" style="width:18px;height:18px;color:#1e40af;"></i></div>
+                    <h3 class="font-heebo" style="font-size:1.0625rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Fast &amp; Lightweight</h3>
+                    <p style="color:#64748b;font-size:.9rem;line-height:1.65;">No bloated suite. VertiCrop does one job — crop vertical — and does it fast. Install in a minute, start cropping immediately.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ PRICING ════════════════════════════════════════════════ -->
+    <section style="padding:4rem 1.5rem 5rem;">
+        <div style="max-width:52rem;margin:0 auto;">
+
+            <div class="fade-up" style="text-align:center;margin-bottom:3rem;">
+                <h2 class="h2">Pricing</h2>
+                <p class="sub">Start for free, upgrade when you're ready.</p>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;" class="pricing-grid">
+
+                <!-- Free Trial -->
+                <div class="price-card fade-up d1" style="border-color:rgba(0,0,0,0.09);box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+                    <p style="color:#94a3b8;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem;">Free Trial</p>
+                    <div style="display:flex;align-items:flex-end;gap:.25rem;margin-bottom:2rem;">
+                        <span class="font-heebo" style="font-size:3.5rem;line-height:1;font-weight:800;color:#0f172a;">$0</span>
+                        <span style="color:#94a3b8;font-size:1rem;margin-bottom:.5rem;">forever</span>
+                    </div>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:.8rem;margin-bottom:2rem;">
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#94a3b8;flex-shrink:0;"></i>
+                            Visual crop editor
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#94a3b8;flex-shrink:0;"></i>
+                            Local ML processing
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#94a3b8;font-size:.9rem;">
+                            <i data-lucide="x-circle" style="width:17px;height:17px;color:#cbd5e1;flex-shrink:0;"></i>
+                            Up to 2 min total
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#94a3b8;font-size:.9rem;">
+                            <i data-lucide="x-circle" style="width:17px;height:17px;color:#cbd5e1;flex-shrink:0;"></i>
+                            Low quality output only
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#94a3b8;font-size:.9rem;">
+                            <i data-lucide="x-circle" style="width:17px;height:17px;color:#cbd5e1;flex-shrink:0;"></i>
+                            No XML export
+                        </li>
+                    </ul>
+                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                       style="display:flex;align-items:center;justify-content:center;gap:.5rem;
+                              width:100%;padding:.9rem;border-radius:10px;
+                              background:transparent;border:1.5px solid #e2e8f0;
+                              color:#475569;font-family:'Heebo',sans-serif;font-weight:700;font-size:.9375rem;
+                              text-decoration:none;transition:border-color .2s,color .2s;"
+                       onmouseover="this.style.borderColor='#94a3b8';this.style.color='#1e293b';"
+                       onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#475569';">
+                        <i data-lucide="download" style="width:16px;height:16px;"></i>
+                        Download Free
+                    </a>
+                </div>
+
+                <!-- Pro -->
+                <div class="price-card fade-up d2">
+                    <p style="color:#0ea5e9;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem;">Pro</p>
+                    <div style="display:flex;align-items:flex-end;gap:.25rem;margin-bottom:2rem;">
+                        <span class="font-heebo" style="font-size:3.5rem;line-height:1;font-weight:800;color:#0f172a;">$30</span>
+                        <span style="color:#94a3b8;font-size:1rem;margin-bottom:.5rem;">/ month</span>
+                    </div>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:.8rem;margin-bottom:2rem;">
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#0ea5e9;flex-shrink:0;"></i>
+                            Full quality export
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#0ea5e9;flex-shrink:0;"></i>
+                            XML export for Premiere &amp; DaVinci
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#0ea5e9;flex-shrink:0;"></i>
+                            Unlimited exports
+                        </li>
+                        <li style="display:flex;align-items:center;gap:.7rem;color:#334155;font-size:.9rem;">
+                            <i data-lucide="check-circle-2" style="width:17px;height:17px;color:#0ea5e9;flex-shrink:0;"></i>
+                            Cancel anytime
+                        </li>
+                    </ul>
+                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                       class="vc-btn" style="width:100%;justify-content:center;font-size:.9375rem;padding:.9rem 1.5rem;">
+                        <i data-lucide="download" style="width:16px;height:16px;"></i>
+                        Start Free Trial
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <style>
+        @media (max-width: 560px) {
+            .pricing-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+
+    <!-- ══ BOTTOM CTA ═════════════════════════════════════════════ -->
+    <section style="padding:4rem 1.5rem 5.5rem;text-align:center;" class="fade-up">
+        <div style="max-width:38rem;margin:0 auto;">
+            <h2 class="h2">Ready to go vertical?</h2>
+            <p class="sub" style="margin-bottom:2rem;">
+                Try VertiCrop for free. No credit card, no setup hassle,
+                just download and start cropping.
+            </p>
+            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+               class="vc-btn vc-btn-lg">
+                <i data-lucide="download" style="width:20px;height:20px;"></i>
+                Start Free Trial
+            </a>
+        </div>
+    </section>
+
+    <!-- ══ FOOTER ═════════════════════════════════════════════════ -->
+    <footer class="vc-footer" style="padding:2.25rem 1.5rem;">
+        <div style="max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:.625rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="22" height="22" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg2" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/>
+                            <stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <filter id="tube-glow2" x="-40%" y="-80%" width="180%" height="260%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="line-glow2" x="-80%" y="-30%" width="260%" height="160%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none"
+                          stroke="url(#lg2)" stroke-width="9" filter="url(#tube-glow2)" opacity="0.6"/>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none"
+                          stroke="#93c5fd" stroke-width="2"/>
+                    <g filter="url(#line-glow2)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:.9375rem;font-weight:800;color:#0f172a;">VertiCrop</span>
+            </div>
+            <div style="display:flex;gap:1.5rem;align-items:center;">
+                <a href="/privacy" style="color:#64748b;font-size:.8125rem;text-decoration:none;">Privacy</a>
+                <a href="/terms"   style="color:#64748b;font-size:.8125rem;text-decoration:none;">Terms</a>
+                <a href="/refund"  style="color:#64748b;font-size:.8125rem;text-decoration:none;">Refund</a>
+            </div>
+            <p style="color:#94a3b8;font-size:.8125rem;margin:0;">
+                Built by
+                <a href="https://sharedvisionai.org"
+                   style="color:#64748b;text-decoration:none;transition:color .2s;"
+                   onmouseover="this.style.color='#0f172a'"
+                   onmouseout="this.style.color='#64748b'">SharedVision AI</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Nav: transparent at top, frosted glass when scrolled
+        const nav = document.querySelector('.vc-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 24);
+        }, { passive: true });
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.10 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+
+</html>
