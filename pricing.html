@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Heebo:wght@700;800&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -139,7 +140,7 @@
                 </svg>
                 <span class="font-heebo" style="font-size:1.2rem;font-weight:800;color:#0f172a;letter-spacing:-.01em;">VertiCrop</span>
             </a>
-            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe" class="vc-btn" style="width:auto;">
+            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VertiCrop-Setup.exe" class="vc-btn" style="width:auto;">
                 <i data-lucide="download" style="width:15px;height:15px;"></i> Free Trial
             </a>
         </div>
@@ -186,7 +187,7 @@
                             No XML export
                         </li>
                     </ul>
-                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VertiCrop-Setup.exe"
                        class="vc-btn-outline">Get Started</a>
                 </div>
 
@@ -216,11 +217,9 @@
                             1 device
                         </li>
                     </ul>
-                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
-                       class="vc-btn" id="pro-btn">
-                        <i data-lucide="download" style="width:15px;height:15px;"></i>
-                        <span id="pro-btn-text">Start Free Trial</span>
-                    </a>
+                    <button onclick="openProCheckout()" class="vc-btn" id="pro-btn">
+                        <span id="pro-btn-text">Subscribe</span>
+                    </button>
                 </div>
 
                 <!-- PRODUCTION -->
@@ -245,10 +244,9 @@
                             Priority support
                         </li>
                     </ul>
-                    <a href="mailto:support@sharedvisionai.org?subject=Production%20Plan"
-                       class="vc-btn-outline" id="prod-btn">
-                        <span id="prod-btn-text">Contact Us</span>
-                    </a>
+                    <button onclick="openProdCheckout()" class="vc-btn" id="prod-btn">
+                        <span id="prod-btn-text">Subscribe</span>
+                    </button>
                 </div>
 
             </div>
@@ -310,12 +308,44 @@
     <script>
         lucide.createIcons();
 
+        // ── Paddle init ──────────────────────────────────────────────────────
+        Paddle.Initialize({
+            token: 'live_747b46e6135a048319cd2f70e21',
+        });
+
+        // Price IDs (production)
+        const PRICES = {
+            pro:        { monthly: 'pri_01kt9ckk2xhkbgvbywg04r6mr6', annual: 'pri_01kt9cnrma5mg6zzb8ftc9exee' },
+            production: { monthly: 'pri_01kt9cdfdjga5bxfv7jeefywh5', annual: 'pri_01kt9crd1v2bnxa1ey6xwaxknd' },
+        };
+
+        // Read email from ?email= query param (passed by the app after login)
+        const userEmail = new URLSearchParams(window.location.search).get('email') || '';
+
+        let billing = 'monthly';
+
+        function openCheckout(priceId) {
+            const opts = {
+                items: [{ priceId, quantity: 1 }],
+            };
+            if (userEmail) {
+                opts.customData = { email: userEmail };
+            }
+            Paddle.Checkout.open(opts);
+        }
+
+        function openProCheckout()   { openCheckout(PRICES.pro[billing]); }
+        function openProdCheckout()  { openCheckout(PRICES.production[billing]); }
+
+        // ── Nav scroll ───────────────────────────────────────────────────────
         const nav = document.querySelector('.vc-nav');
         window.addEventListener('scroll', () => {
             nav.classList.toggle('scrolled', window.scrollY > 24);
         }, { passive: true });
 
+        // ── Billing toggle ───────────────────────────────────────────────────
         function setBilling(mode) {
+            billing = mode;
             const isAnnual = mode === 'annual';
 
             document.getElementById('btn-monthly').classList.toggle('active', !isAnnual);
@@ -324,21 +354,12 @@
             // Pro
             document.getElementById('pro-price').textContent = isAnnual ? '$25.49' : '$29.99';
             document.getElementById('pro-alt').textContent = isAnnual ? '$305.90 billed annually' : '';
-            document.getElementById('pro-btn-text').textContent = isAnnual ? 'Subscribe' : 'Start Free Trial';
+            document.getElementById('pro-btn-text').textContent = 'Subscribe';
 
             // Production
             document.getElementById('prod-price').textContent = isAnnual ? '$127.49' : '$149.99';
             document.getElementById('prod-alt').textContent = isAnnual ? '$1,529.90 billed annually' : '';
-            document.getElementById('prod-btn-text').textContent = isAnnual ? 'Subscribe' : 'Contact Us';
-
-            const prodBtn = document.getElementById('prod-btn');
-            if (isAnnual) {
-                prodBtn.href = '#'; // החלף עם Paddle link
-                prodBtn.className = 'vc-btn';
-            } else {
-                prodBtn.href = 'mailto:support@sharedvisionai.org?subject=Production%20Plan';
-                prodBtn.className = 'vc-btn-outline';
-            }
+            document.getElementById('prod-btn-text').textContent = 'Subscribe';
         }
     </script>
 </body>
