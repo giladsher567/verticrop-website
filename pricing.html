@@ -311,6 +311,7 @@
         // ── Paddle init ──────────────────────────────────────────────────────
         Paddle.Initialize({
             token: 'live_747b46e6135a048319cd2f70e21',
+            eventCallback: function(e) { console.log('[Paddle]', e.name, JSON.stringify(e.data)); },
         });
 
         // Price IDs (production)
