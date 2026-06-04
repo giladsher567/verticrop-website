@@ -6,7 +6,7 @@ export default defineConfig({
       name: 'clean-url-rewrites',
       configureServer(server) {
         server.middlewares.use((req, _res, next) => {
-          const map = { '/privacy': '/privacy.html', '/terms': '/terms.html', '/refund': '/refund.html' }
+          const map = { '/pricing': '/pricing.html', '/privacy': '/privacy.html', '/terms': '/terms.html', '/refund': '/refund.html' }
           if (map[req.url]) req.url = map[req.url]
           next()
         })
@@ -17,6 +17,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main:    'index.html',
+        pricing: 'pricing.html',
         privacy: 'privacy.html',
         terms:   'terms.html',
         refund:  'refund.html',

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing — VertiCrop</title>
+    <meta name="description" content="VertiCrop pricing. Free trial, Pro at $29.99/month, Production at $149.99/month. 14-day money-back guarantee." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://verticrop.sharedvisionai.org/pricing" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Heebo:wght@700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse 120% 55% at 50% -5%, rgba(56,189,248,0.20) 0%, rgba(99,102,241,0.08) 45%, transparent 70%),
+                #ffffff;
+        }
+        .font-heebo { font-family: 'Heebo', sans-serif; }
+
+        .vc-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+            color: #fff; font-family: 'Heebo', sans-serif; font-weight: 800;
+            font-size: 0.9375rem; padding: 0.75rem 1.5rem; border-radius: 10px;
+            text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(14,165,233,0.30); white-space: nowrap; width: 100%;
+        }
+        .vc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(14,165,233,0.45); }
+        .vc-btn-outline {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: transparent; border: 1.5px solid #e2e8f0;
+            color: #475569; font-family: 'Heebo', sans-serif; font-weight: 700;
+            font-size: 0.9375rem; padding: 0.75rem 1.5rem; border-radius: 10px;
+            text-decoration: none; transition: border-color 0.2s, color 0.2s; width: 100%;
+        }
+        .vc-btn-outline:hover { border-color: #94a3b8; color: #1e293b; }
+
+        .vc-nav {
+            position: sticky; top: 0; z-index: 50; background: transparent;
+            border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s;
+        }
+        .vc-nav.scrolled {
+            background: rgba(255,255,255,0.82); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border-bottom-color: rgba(0,0,0,0.07);
+        }
+
+        /* Toggle */
+        .billing-toggle {
+            display: inline-flex; align-items: center;
+            background: #f1f5f9; border-radius: 999px; padding: 4px; gap: 2px;
+        }
+        .toggle-btn {
+            padding: .5rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif; font-size: .875rem; font-weight: 500;
+            color: #64748b; background: transparent; transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: #fff; color: #0f172a; font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        }
+        .save-badge {
+            display: inline-block; background: #dcfce7; color: #15803d;
+            font-size: .75rem; font-weight: 700; padding: .15rem .5rem;
+            border-radius: 999px; margin-left: .5rem;
+        }
+
+        /* Pricing cards */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            align-items: start;
+        }
+        @media (max-width: 860px) { .price-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+
+        .price-card {
+            background: rgba(255,255,255,0.85); border: 1.5px solid rgba(0,0,0,0.08);
+            border-radius: 20px; padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        .price-card.featured {
+            border-color: rgba(14,165,233,0.35);
+            box-shadow: 0 8px 40px rgba(14,165,233,0.12);
+        }
+
+        .price-label {
+            font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+            text-transform: uppercase; margin-bottom: 1.25rem;
+        }
+        .price-amount {
+            font-family: 'Heebo', sans-serif; font-size: 3rem;
+            line-height: 1; font-weight: 800; color: #0f172a;
+        }
+        .price-period { color: #94a3b8; font-size: .9375rem; margin-left: .2rem; }
+        .price-alt { color: #64748b; font-size: .8125rem; margin-top: .375rem; min-height: 1.25rem; }
+
+        .feat-list { list-style: none; display: flex; flex-direction: column; gap: .7rem; margin: 1.75rem 0; }
+        .feat-list li { display: flex; align-items: flex-start; gap: .625rem; font-size: .9rem; color: #334155; }
+        .feat-list li svg { flex-shrink: 0; margin-top: 1px; }
+
+        .vc-footer { border-top: 1px solid rgba(0,0,0,0.08); background: rgba(248,250,252,0.8); }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="vc-nav">
+        <div style="max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.5rem;">
+            <a href="/" style="display:flex;align-items:center;gap:.7rem;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="34" height="34" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <filter id="glow1" x="-30%" y="-60%" width="160%" height="220%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="ls1" x="-60%" y="-30%" width="220%" height="160%">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.7"/>
+                        </filter>
+                    </defs>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="url(#lg1)" stroke-width="9" filter="url(#glow1)" opacity="0.6"/>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="#93c5fd" stroke-width="2"/>
+                    <g filter="url(#ls1)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:1.2rem;font-weight:800;color:#0f172a;letter-spacing:-.01em;">VertiCrop</span>
+            </a>
+            <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe" class="vc-btn" style="width:auto;">
+                <i data-lucide="download" style="width:15px;height:15px;"></i> Free Trial
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <section style="padding:4rem 1.5rem 3rem;text-align:center;">
+        <h1 class="font-heebo" style="font-size:clamp(2rem,5vw,3rem);font-weight:800;color:#0f172a;margin-bottom:.75rem;">Simple, transparent pricing</h1>
+        <p style="color:#64748b;font-size:1.0625rem;margin-bottom:2rem;">Start free. Upgrade when you're ready.</p>
+
+        <!-- Billing toggle -->
+        <div class="billing-toggle">
+            <button class="toggle-btn active" id="btn-monthly" onclick="setBilling('monthly')">Monthly</button>
+            <button class="toggle-btn" id="btn-annual" onclick="setBilling('annual')">
+                Annual <span class="save-badge">Save 15%</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PRICING CARDS -->
+    <section style="padding:0 1.5rem 2rem;">
+        <div style="max-width:72rem;margin:0 auto;">
+            <div class="price-grid">
+
+                <!-- FREE -->
+                <div class="price-card">
+                    <p class="price-label" style="color:#94a3b8;">Free</p>
+                    <div>
+                        <span class="price-amount">$0</span>
+                        <span class="price-period">/ forever</span>
+                    </div>
+                    <p class="price-alt"></p>
+                    <ul class="feat-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Up to 120 seconds per video
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Watermark on all exports
+                        </li>
+                        <li style="color:#cbd5e1;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            No XML export
+                        </li>
+                    </ul>
+                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                       class="vc-btn-outline">Get Started</a>
+                </div>
+
+                <!-- PRO -->
+                <div class="price-card featured">
+                    <p class="price-label" style="color:#0ea5e9;">Pro</p>
+                    <div>
+                        <span class="price-amount" id="pro-price">$29.99</span>
+                        <span class="price-period">/ month</span>
+                    </div>
+                    <p class="price-alt" id="pro-alt"></p>
+                    <ul class="feat-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Unlimited video length
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            No watermark
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            XML export (Premiere / DaVinci)
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            1 device
+                        </li>
+                    </ul>
+                    <a href="https://github.com/giladsher567/vertical-clip-editor-releases/releases/latest/download/VerticalClipEditor-Setup.exe"
+                       class="vc-btn" id="pro-btn">
+                        <i data-lucide="download" style="width:15px;height:15px;"></i>
+                        <span id="pro-btn-text">Start Free Trial</span>
+                    </a>
+                </div>
+
+                <!-- PRODUCTION -->
+                <div class="price-card">
+                    <p class="price-label" style="color:#a54ff5;">Production</p>
+                    <div>
+                        <span class="price-amount" id="prod-price">$149.99</span>
+                        <span class="price-period">/ month</span>
+                    </div>
+                    <p class="price-alt" id="prod-alt"></p>
+                    <ul class="feat-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a54ff5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Everything in Pro
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a54ff5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Unlimited devices
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a54ff5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Priority support
+                        </li>
+                    </ul>
+                    <a href="mailto:support@sharedvisionai.org?subject=Production%20Plan"
+                       class="vc-btn-outline" id="prod-btn">
+                        <span id="prod-btn-text">Contact Us</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GUARANTEE NOTE -->
+    <section style="padding:1.5rem 1.5rem 5rem;text-align:center;">
+        <div style="display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem .75rem;color:#64748b;font-size:.875rem;">
+            <span style="display:flex;align-items:center;gap:.35rem;">
+                <i data-lucide="shield-check" style="width:15px;height:15px;color:#0ea5e9;"></i>
+                Payments processed by Paddle
+            </span>
+            <span style="width:1px;height:12px;background:#cbd5e1;display:inline-block;"></span>
+            <span style="display:flex;align-items:center;gap:.35rem;">
+                <i data-lucide="rotate-ccw" style="width:15px;height:15px;color:#0ea5e9;"></i>
+                14-day money-back guarantee —
+                <a href="/refund" style="color:#2563eb;text-decoration:none;font-weight:500;">Refund Policy</a>
+            </span>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="vc-footer" style="padding:2.25rem 1.5rem;">
+        <div style="max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:.625rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="22" height="22" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg2" x1="0" y1="1" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#38bdf8"/>
+                        </linearGradient>
+                        <filter id="ls2" x="-60%" y="-30%" width="220%" height="160%">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.7"/>
+                        </filter>
+                    </defs>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="url(#lg2)" stroke-width="8"/>
+                    <rect x="11" y="25" width="78" height="50" rx="17" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+                    <g filter="url(#ls2)" opacity="0.75">
+                        <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                    <line x1="38" y1="16" x2="38" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="63" y1="16" x2="63" y2="84" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="font-heebo" style="font-size:.9375rem;font-weight:800;color:#0f172a;">VertiCrop</span>
+            </div>
+            <div style="display:flex;gap:1.5rem;align-items:center;">
+                <a href="/pricing" style="color:#0f172a;font-size:.8125rem;text-decoration:none;font-weight:600;">Pricing</a>
+                <a href="/privacy" style="color:#64748b;font-size:.8125rem;text-decoration:none;">Privacy</a>
+                <a href="/terms"   style="color:#64748b;font-size:.8125rem;text-decoration:none;">Terms</a>
+                <a href="/refund"  style="color:#64748b;font-size:.8125rem;text-decoration:none;">Refund</a>
+            </div>
+            <p style="color:#94a3b8;font-size:.8125rem;margin:0;">
+                Built by <a href="https://sharedvisionai.org" style="color:#64748b;text-decoration:none;">SharedVision AI</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const nav = document.querySelector('.vc-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 24);
+        }, { passive: true });
+
+        function setBilling(mode) {
+            const isAnnual = mode === 'annual';
+
+            document.getElementById('btn-monthly').classList.toggle('active', !isAnnual);
+            document.getElementById('btn-annual').classList.toggle('active', isAnnual);
+
+            // Pro
+            document.getElementById('pro-price').textContent = isAnnual ? '$25.49' : '$29.99';
+            document.getElementById('pro-alt').textContent = isAnnual ? '$305.90 billed annually' : '';
+            document.getElementById('pro-btn-text').textContent = isAnnual ? 'Subscribe' : 'Start Free Trial';
+
+            // Production
+            document.getElementById('prod-price').textContent = isAnnual ? '$127.49' : '$149.99';
+            document.getElementById('prod-alt').textContent = isAnnual ? '$1,529.90 billed annually' : '';
+            document.getElementById('prod-btn-text').textContent = isAnnual ? 'Subscribe' : 'Contact Us';
+
+            const prodBtn = document.getElementById('prod-btn');
+            if (isAnnual) {
+                prodBtn.href = '#'; // החלף עם Paddle link
+                prodBtn.className = 'vc-btn';
+            } else {
+                prodBtn.href = 'mailto:support@sharedvisionai.org?subject=Production%20Plan';
+                prodBtn.className = 'vc-btn-outline';
+            }
+        }
+    </script>
+</body>
+</html>
